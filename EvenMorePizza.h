@@ -14,7 +14,15 @@ struct Order {
   std::vector<int> ps;
   int rootscr=0;
 
-  int size() {return ps.size();}
+  Order() {}
+
+  Order(std::vector<Pizza>& pzs) {
+    for (Pizza& p : pzs) {
+      add(p);
+    }
+  }
+
+  int size() const {return ps.size();}
   
   void add(Pizza const& P) {
     ps.push_back(P.id);
@@ -56,7 +64,10 @@ struct Solution {
     int sz = order.size();
     pizzas += sz;
     scr += order.rootscr * order.rootscr;
-    data[sz].push_back(std::move(order.ps));
+    
+    data[sz].push_back(std::vector<int>());
+    std::vector<int>& row = data[sz].back();
+    row.insert(row.end(),order.ps.begin(), order.ps.end());
   }
 
 
